@@ -1,0 +1,12 @@
+<table class="task-list">
+  <tr>
+    <th>Client</th>
+    <th>Task</th>
+  </tr>
+  <% tasks.forEach(task => { %>
+  <tr>
+    <td><%= task.client %></td>
+    <td><%= task.task %></td>
+  </tr>
+  <% }); %>
+</table>
