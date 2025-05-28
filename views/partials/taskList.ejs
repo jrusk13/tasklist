@@ -2,11 +2,13 @@
   <tr>
     <th>Client</th>
     <th>Task</th>
+    <th>Remove</th>
   </tr>
   <% tasks.forEach(task => { %>
   <tr>
     <td><%= task.client %></td>
     <td><%= task.task %></td>
+    <td><a href="/<%= task.id %>">Click to delete</a></td>
   </tr>
   <% }); %>
 </table>
