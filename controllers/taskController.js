@@ -2,7 +2,7 @@ let TaskModel = require("../models/taskModel");
 
 class TaskController {
   static renderAllTasks(req, res) {
-    let tasks = TaskModel.getTasks();
+    let tasks = TaskModel.readTaskFile();
     res.render("home", { tasks });
   }
 

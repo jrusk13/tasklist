@@ -11,18 +11,32 @@ class TaskModel {
     this.task = task;
   }
 
-  static getTasks() {
-    return JSON.parse(fs.readFileSync(taskList, "utf-8"));
+  static taskFile = "/workspaces/tasklist/data/tasklist.json";
+
+  static readTaskFile() {
+    try {
+      return JSON.parse(fs.readFileSync(this.taskFile, "utf-8"));
+    } catch (error) {
+      console.log("Error reading task file.");
+    }
+  }
+
+  static writeTaskFile(tasks) {
+    fs.writeFileSync(taskList, JSON.stringify(tasks));
   }
 
   addTask() {
-    let tasks = TaskModel.getTasks();
-    tasks.push({ id: this.id, client: this.client, task: this.task });
-    fs.writeFileSync(taskList, JSON.stringify(tasks, null, 2));
+    let tasks = TaskModel.readTaskFile();
+    tasks.push({
+      id: this.id,
+      client: this.client,
+      task: this.task,
+    });
+    TaskModel.writeTaskFile(tasks);
   }
 
   static deleteTask(id) {
-    let tasks = TaskModel.getTasks();
+    let tasks = this.readTaskFile();
     let index = tasks.findIndex((task) => task.id === id);
 
     if (index === -1) {
@@ -31,9 +45,8 @@ class TaskModel {
     }
 
     try {
-      console.log(index);
       tasks.splice(index, 1);
-      fs.writeFileSync(taskList, JSON.stringify(tasks, null, 2));
+      this.writeTaskFile(tasks);
     } catch (error) {
       console.log(error);
     }
